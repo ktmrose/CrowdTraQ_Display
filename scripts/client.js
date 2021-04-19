@@ -1,4 +1,4 @@
-var redirectUri = 'http://localhost:8081/';
+var redirectUri = 'https://ktmrose.github.io/CrowdTraQ_ServerGUI/';
 var clientId = "";
 var clientSec = "";
 var access_token = null;
