@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+   <!-- Required meta tags -->
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta http-equiv='cache-control' content='no-cache'>
+   <meta http-equiv='expires' content='0'>
+   <meta http-equiv='pragma' content='no-cache'>
+   <link href="styles.css" rel="stylesheet">
+   <title>Spotify Web Api</title>
+</head>
+<body onload="onPageLoad();getQLength();getCost()">
+<div class="logo">
+   <img src="./assets/CrowdTraQLogo.png">
+</div>
+
+<div class="container">
+   <div id="tokenSection" class="row">
+      <div class="col">
+         <div class="mb-3">
+            <label for="clientId" class="form-label"> Client ID: </label>
+            <input type="text" class="form-control" id="clientId" placeholder="">
+         </div>
+         <div class="mb-3">
+            <label for="clientSecret" class="form-label"> Client Secret: </label>
+            <input type="text" class="form-control" id="clientSecret" placeholder="">
+         </div>
+         <button class="button" onclick="requestAuthorization()">Request Authorization</button><br/>
+      </div>
+   </div>
+   <div class="container">
+
+      <img id="albumImage" src="">
+      <div id="trackTitle"></div>
+      <div id="trackArtist"></div>
+   </div>
+   <div id="songSelection" class="row">
+      <div class="col">
+         <div class="mb-3">
+            <label for="track" class="form-label">Track ID: </label>
+            <input type="text" class="form-control" id="track" placeholder="">
+         </div>
+         <div class="row">
+            <div class="col">
+               <button class="button" onclick="addSongToQueue()">AddToQ</button>
+               <button class="button" onclick="playPause()">Play/Pause</button>
+               <button class="button" onclick="skipSong()">Skip</button>
+            </div>
+         </div>
+      </div>
+   </div>
+
+   <div id="info" onload="">
+      <h2>Songs in Q:</h2>
+      <h1 id="qLength"></h1>
+      <h2>Tokens needed to add song:</h2>
+      <h1 id="addSongCost"></h1>
+   </div>
+
+</div>
+</body>
+<script src="scripts/client.js"></script>
+<script src="scripts/gatekeeper.js"></script>
+</html>
