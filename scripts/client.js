@@ -306,3 +306,16 @@ function requestAuthorization() {
 
     window.location.href = url;
 }
+
+// ### WebSocket connection to server ###
+connection = null;
+function connectToServer() {
+    if (this.connection !== null) {
+        this.connection = new WebSocket('ws://localhost:8081')
+    }
+    this.connection.onopen = function(event) {
+        console.log(event)
+        console.log('Server GUI connection to CrowdTraQ Server successful')
+    }
+}
+
