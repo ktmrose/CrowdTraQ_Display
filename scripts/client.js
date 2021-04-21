@@ -314,7 +314,6 @@ function connectToServer() {
         this.connection = new WebSocket('ws://localhost:8081')
     }
     this.connection.onopen = function(event) {
-        console.log(event)
         console.log('Server GUI connection to CrowdTraQ Server successful')
     }
 }
