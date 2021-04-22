@@ -1,6 +1,8 @@
-var redirectUri = 'https://ktmrose.github.io/CrowdTraQ_ServerGUI/';
-var clientId = "";
-var clientSec = "";
+let jsonCreds = JSON.parse(data)
+
+var redirectUri = 'https://ktmrose.github.io/CrowdTraQ_Display/';
+var clientId = jsonCreds.ClientID;
+var clientSec = jsonCreds.ClientSec;
 var access_token = null;
 var refresh_token = null;
 
@@ -269,14 +271,16 @@ function checkSongDuration() {
  * that prompts the user for these. Then checks if access token is in session storage.
  */
 function onPageLoad() {
-    clientId = sessionStorage.getItem("client_id");
-    clientSec = sessionStorage.getItem("client_secret");
+    // clientId = sessionStorage.getItem("client_id");
+    // clientSec = sessionStorage.getItem("client_secret");
     if (window.location.search.length > 0) {
         handleRedirect();
     } else {
         access_token = sessionStorage.getItem("access_token");
-        if (access_token == null) {
+        if (clientSec === null || clientId === null){
             document.getElementById("tokenSection").style.display = 'block';
+        } else if (access_token == null) {
+            requestAuthorization()
         } else {
             document.getElementById("songSelection").style.display = 'block';
             callSpotifyApi("GET", PLAYBACKSTATE + "?market=US", null, handleCurrentlyPlayingResponse);
@@ -289,8 +293,8 @@ function onPageLoad() {
  * Saves the client ID and client secret from the text input boxes into session storage, then redirects to Spotify authorization page.
  */
 function requestAuthorization() {
-    clientId = document.getElementById("clientId").value;
-    clientSec = document.getElementById("clientSecret").value;
+    // clientId = document.getElementById("clientId").value;
+    // clientSec = document.getElementById("clientSecret").value;
     sessionStorage.setItem("client_id", clientId);
     sessionStorage.setItem("client_secret", clientSec);
 
@@ -315,6 +319,11 @@ function connectToServer() {
     }
     this.connection.onopen = function(event) {
         console.log('Server GUI connection to CrowdTraQ Server successful')
+    }
+
+    this.connection.onmessage = function(event) {
+        console.log(event)
+
     }
 }
 
