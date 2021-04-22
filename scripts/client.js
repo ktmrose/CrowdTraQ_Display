@@ -51,7 +51,7 @@ function onPageLoad() {
     // console.log(typeof(clientId) + " " + clientId)
     clientId = sessionStorage.getItem("client_id");
     clientSec = sessionStorage.getItem("client_secret");
-    // console.log(typeof(clientId) + " " + clientId)
+    console.log(typeof(clientId) + " " + clientId)
     if (clientId === "" || clientSec === "") {
         document.getElementById("tokenSection").style.display = 'block';
     } else if (window.location.search.length > 0) {
