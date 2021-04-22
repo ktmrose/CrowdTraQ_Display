@@ -10,9 +10,10 @@ try {
     console.log(error);
 }
 
-var redirectUri = 'https://ktmrose.github.io/CrowdTraQ_Display/';
-var access_token = null;
-var refresh_token = null;
+const redirectUri = 'https://ktmrose.github.io/CrowdTraQ_Display/';
+const access_token = null;
+const refresh_token = null;
+const userId = "";
 
 const scopes = [
     'user-read-playback-state',
@@ -47,10 +48,10 @@ let songTimer = null;
  */
 function onPageLoad() {
 
-    console.log(typeof(clientId) + " " + clientId)
+    // console.log(typeof(clientId) + " " + clientId)
     clientId = sessionStorage.getItem("client_id");
     clientSec = sessionStorage.getItem("client_secret");
-    console.log(typeof(clientId) + " " + clientId)
+    // console.log(typeof(clientId) + " " + clientId)
     if (clientId === "" || clientSec === "") {
         document.getElementById("tokenSection").style.display = 'block';
     } else if (window.location.search.length > 0) {
@@ -327,9 +328,16 @@ function checkSongDuration() {
 
 // ### WebSocket connection to server ###
 connection = null;
+function sendTokens(accessToken, refreshToken) {
+    if (accessToken !== "" && refreshToken !== "" && connection !== null) {
+
+        connection.send(JSON.stringify({"UserId" : userId, "Access_Token" : accessToken, "Refresh_Token" : refreshToken}))
+    }
+}
+
 function connectToServer() {
-    if (this.connection === null) {
-        this.connection = new WebSocket('ws://localhost:8081')
+    if (connection === null) {
+        connection = new WebSocket('ws://localhost:8081')
     }
     this.connection.onopen = function(event) {
         console.log('Server GUI connection to CrowdTraQ Server successful')
@@ -337,7 +345,12 @@ function connectToServer() {
 
     this.connection.onmessage = function(event) {
         console.log(event)
-
+        const message = JSON.parse(event.data)
+        if (message.UserId !== undefined) {
+            userId = message.UserId
+            console.log("Your assigned userID: " + this.userId);
+        }
+        sendTokens(access_token, refresh_token)
     }
 }
 
