@@ -42,6 +42,55 @@ let songProgression;
 let songTimer = null;
 
 /**
+ * When page loads, checks session storage for client ID and client Secret. If none, displays html
+ * that prompts the user for these. Then checks if access token is in session storage.
+ */
+function onPageLoad() {
+
+    // clientId = sessionStorage.getItem("client_id");
+    // clientSec = sessionStorage.getItem("client_secret");
+    if (clientId === "" || clientSec === "") {
+        document.getElementById("tokenSection").style.display = 'block';
+    }
+    if (window.location.search.length > 0) {
+        handleRedirect();
+    } else {
+        access_token = sessionStorage.getItem("access_token");
+        if (access_token == null) {
+            requestAuthorization()
+        } else {
+            document.getElementById("songSelection").style.display = 'block';
+            callSpotifyApi("GET", PLAYBACKSTATE + "?market=US", null, handleCurrentlyPlayingResponse);
+            // document.getElementById("qLength").innerText = window.queueLength;
+        }
+    }
+}
+
+/**
+ * Saves the client ID and client secret from the text input boxes into session storage, then redirects to Spotify authorization page.
+ */
+function requestAuthorization() {
+    if (clientId === "" || clientSec === "") {
+        clientId = document.getElementById("clientId").value;
+        clientSec = document.getElementById("clientSecret").value;
+    }
+    sessionStorage.setItem("client_id", clientId);
+    sessionStorage.setItem("client_secret", clientSec);
+
+    let url = AUTHORIZE;
+    url += "?client_id=" + clientId;
+    url += "&response_type=code";
+    url += "&redirect_uri=" + encodeURI(redirectUri);
+    url += "&show_dialog=true";
+
+    let scopeString = "";
+    scopes.forEach(scope => scopeString += (scope + " "));
+    url += "&scope=" + scopeString;
+
+    window.location.href = url;
+}
+
+/**
  * Parses the url returned from Spotify and gets the authorization token.
  * @returns {null} the code, if present. Code would not be present if authorization has not been granted by user.
  */
@@ -274,55 +323,6 @@ function checkSongDuration() {
     }, 1000);
 }
 
-/**
- * When page loads, checks session storage for client ID and client Secret. If none, displays html
- * that prompts the user for these. Then checks if access token is in session storage.
- */
-function onPageLoad() {
-    if (clientId === "" || clientSec === "") {
-        clientId = sessionStorage.getItem("client_id");
-        clientSec = sessionStorage.getItem("client_secret");
-    }
-
-    if (window.location.search.length > 0) {
-        handleRedirect();
-    } else {
-        access_token = sessionStorage.getItem("access_token");
-        if (clientSec === null || clientId === null){
-            document.getElementById("tokenSection").style.display = 'block';
-        } else if (access_token == null) {
-            requestAuthorization()
-        } else {
-            document.getElementById("songSelection").style.display = 'block';
-            callSpotifyApi("GET", PLAYBACKSTATE + "?market=US", null, handleCurrentlyPlayingResponse);
-            // document.getElementById("qLength").innerText = window.queueLength;
-        }
-    }
-}
-
-/**
- * Saves the client ID and client secret from the text input boxes into session storage, then redirects to Spotify authorization page.
- */
-function requestAuthorization() {
-    if (clientId === "" || clientSec === "") {
-        clientId = document.getElementById("clientId").value;
-        clientSec = document.getElementById("clientSecret").value;
-    }
-    sessionStorage.setItem("client_id", clientId);
-    sessionStorage.setItem("client_secret", clientSec);
-
-    let url = AUTHORIZE;
-    url += "?client_id=" + clientId;
-    url += "&response_type=code";
-    url += "&redirect_uri=" + encodeURI(redirectUri);
-    url += "&show_dialog=true";
-
-    let scopeString = "";
-    scopes.forEach(scope => scopeString += (scope + " "));
-    url += "&scope=" + scopeString;
-
-    window.location.href = url;
-}
 
 // ### WebSocket connection to server ###
 connection = null;
