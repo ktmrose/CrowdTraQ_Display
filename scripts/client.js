@@ -1,6 +1,6 @@
 let jsonCreds;
-let clientId = ""
-let clientSec = ""
+let clientId = null
+let clientSec = null
 
 try {
     jsonCreds = JSON.parse(data)
