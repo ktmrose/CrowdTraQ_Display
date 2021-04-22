@@ -4,8 +4,8 @@ let clientSec = null
 
 try {
     jsonCreds = JSON.parse(data)
-    clientId = jsonCreds.ClientID;
-    clientSec = jsonCreds.ClientSec;
+    // clientId = jsonCreds.ClientID;
+    // clientSec = jsonCreds.ClientSec;
 } catch (error) {
     console.log(error);
 }
@@ -50,14 +50,13 @@ function onPageLoad() {
 
     clientId = sessionStorage.getItem("client_id");
     clientSec = sessionStorage.getItem("client_secret");
-    console.log(typeof(clientId) + " " + clientId)
-    if (clientId === null || clientSec === null ) {
+    if (clientId === "" || clientSec === "" || clientId === "null" || clientSec === "null") {
         document.getElementById("tokenSection").style.display = 'block';
     } else if (window.location.search.length > 0) {
         handleRedirect();
     } else {
         access_token = sessionStorage.getItem("access_token");
-        if (access_token == null) {
+        if (access_token === null) {
             requestAuthorization()
         } else {
             document.getElementById("songSelection").style.display = 'block';
@@ -71,7 +70,7 @@ function onPageLoad() {
  * Saves the client ID and client secret from the text input boxes into session storage, then redirects to Spotify authorization page.
  */
 function requestAuthorization() {
-    if (clientId === "" || clientSec === "") {
+    if (clientId === "" || clientSec === "" || clientId === "null" || clientSec === "null") {
         clientId = document.getElementById("clientId").value;
         clientSec = document.getElementById("clientSecret").value;
     }
