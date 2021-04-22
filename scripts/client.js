@@ -48,8 +48,8 @@ let songTimer = null;
  */
 function onPageLoad() {
 
-    // clientId = sessionStorage.getItem("client_id");
-    // clientSec = sessionStorage.getItem("client_secret");
+    clientId = sessionStorage.getItem("client_id");
+    clientSec = sessionStorage.getItem("client_secret");
     if (clientId === "" || clientSec === "" || clientId === "null" || clientSec === "null") {
         document.getElementById("tokenSection").style.display = 'block';
     } else if (window.location.search.length > 0) {
@@ -70,7 +70,7 @@ function onPageLoad() {
  * Saves the client ID and client secret from the text input boxes into session storage, then redirects to Spotify authorization page.
  */
 function requestAuthorization() {
-    if (clientId === "" || clientSec === "" || clientId === "null" || clientSec === "null") {
+    if (document.getElementById("tokenSection").style.display === 'block') {
         clientId = document.getElementById("clientId").value;
         clientSec = document.getElementById("clientSecret").value;
     }
@@ -342,8 +342,9 @@ function connectToServer() {
     }
 
     this.connection.onmessage = function(event) {
-        console.log(event)
+        
         const message = JSON.parse(event.data)
+        console.log(message)
         if (message.UserId !== undefined) {
             userId = message.UserId
             console.log("Your assigned userID: " + this.userId);
