@@ -11,9 +11,9 @@ try {
 }
 
 const redirectUri = 'https://ktmrose.github.io/CrowdTraQ_Display/';
-var access_token = "";
-const refresh_token = "";
-const userId = "";
+let access_token = "";
+let refresh_token = "";
+let userId = "";
 
 const scopes = [
     'user-read-playback-state',
