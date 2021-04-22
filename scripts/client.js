@@ -2,10 +2,12 @@ let jsonCreds;
 let clientId = ""
 let clientSec = ""
 
-if (data !== undefined) {
+try {
     jsonCreds = JSON.parse(data)
     clientId = jsonCreds.ClientID;
     clientSec = jsonCreds.ClientSec;
+} catch (error) {
+    console.log(error);
 }
 
 var redirectUri = 'https://ktmrose.github.io/CrowdTraQ_Display/';
@@ -281,7 +283,7 @@ function onPageLoad() {
         clientId = sessionStorage.getItem("client_id");
         clientSec = sessionStorage.getItem("client_secret");
     }
-    
+
     if (window.location.search.length > 0) {
         handleRedirect();
     } else {
