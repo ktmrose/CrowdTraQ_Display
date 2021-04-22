@@ -51,7 +51,7 @@ function onPageLoad() {
     clientId = sessionStorage.getItem("client_id");
     clientSec = sessionStorage.getItem("client_secret");
     console.log(typeof(clientId) + " " + clientId)
-    if (clientId === "" || clientSec === "") {
+    if (clientId === null || clientSec === null ) {
         document.getElementById("tokenSection").style.display = 'block';
     } else if (window.location.search.length > 0) {
         handleRedirect();
