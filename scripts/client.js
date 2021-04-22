@@ -47,12 +47,13 @@ let songTimer = null;
  */
 function onPageLoad() {
 
-    // clientId = sessionStorage.getItem("client_id");
-    // clientSec = sessionStorage.getItem("client_secret");
+    console.log(typeof(clientId) + " " + clientId)
+    clientId = sessionStorage.getItem("client_id");
+    clientSec = sessionStorage.getItem("client_secret");
+    console.log(typeof(clientId) + " " + clientId)
     if (clientId === "" || clientSec === "") {
         document.getElementById("tokenSection").style.display = 'block';
-    }
-    if (window.location.search.length > 0) {
+    } else if (window.location.search.length > 0) {
         handleRedirect();
     } else {
         access_token = sessionStorage.getItem("access_token");
