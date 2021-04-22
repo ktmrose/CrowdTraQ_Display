@@ -1,8 +1,14 @@
-let jsonCreds = JSON.parse(data)
+let jsonCreds;
+let clientId = ""
+let clientSec = ""
+
+if (data !== undefined) {
+    jsonCreds = JSON.parse(data)
+    clientId = jsonCreds.ClientID;
+    clientSec = jsonCreds.ClientSec;
+}
 
 var redirectUri = 'https://ktmrose.github.io/CrowdTraQ_Display/';
-var clientId = jsonCreds.ClientID;
-var clientSec = jsonCreds.ClientSec;
 var access_token = null;
 var refresh_token = null;
 
@@ -271,8 +277,11 @@ function checkSongDuration() {
  * that prompts the user for these. Then checks if access token is in session storage.
  */
 function onPageLoad() {
-    // clientId = sessionStorage.getItem("client_id");
-    // clientSec = sessionStorage.getItem("client_secret");
+    if (clientId === "" || clientSec === "") {
+        clientId = sessionStorage.getItem("client_id");
+        clientSec = sessionStorage.getItem("client_secret");
+    }
+    
     if (window.location.search.length > 0) {
         handleRedirect();
     } else {
@@ -293,8 +302,10 @@ function onPageLoad() {
  * Saves the client ID and client secret from the text input boxes into session storage, then redirects to Spotify authorization page.
  */
 function requestAuthorization() {
-    // clientId = document.getElementById("clientId").value;
-    // clientSec = document.getElementById("clientSecret").value;
+    if (clientId === "" || clientSec === "") {
+        clientId = document.getElementById("clientId").value;
+        clientSec = document.getElementById("clientSecret").value;
+    }
     sessionStorage.setItem("client_id", clientId);
     sessionStorage.setItem("client_secret", clientSec);
 
