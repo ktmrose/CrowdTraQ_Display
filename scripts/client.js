@@ -48,8 +48,8 @@ let songTimer = null;
  */
 function onPageLoad() {
 
-    clientId = sessionStorage.getItem("client_id");
-    clientSec = sessionStorage.getItem("client_secret");
+    // clientId = sessionStorage.getItem("client_id");
+    // clientSec = sessionStorage.getItem("client_secret");
     if (clientId === "" || clientSec === "" || clientId === "null" || clientSec === "null") {
         document.getElementById("tokenSection").style.display = 'block';
     } else if (window.location.search.length > 0) {
