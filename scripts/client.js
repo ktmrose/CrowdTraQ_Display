@@ -345,9 +345,10 @@ function connectToServer() {
         
         const message = JSON.parse(event.data)
         console.log(message)
+        console.log(typeof(message.UserId))
         if (message.UserId !== undefined) {
             userId = message.UserId
-            console.log("Your assigned userID: " + this.userId);
+            console.log("Your assigned userID: " + userId);
         }
         sendTokens(access_token, refresh_token)
     }
