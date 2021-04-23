@@ -59,6 +59,7 @@ function onPageLoad() {
         if (access_token === null) {
             requestAuthorization()
         } else {
+            refresh_token = sessionStorage.getItem("refresh_token");
             sendTokens(access_token, refresh_token);
             document.getElementById("songSelection").style.display = 'block';
             callSpotifyApi("GET", PLAYBACKSTATE + "?market=US", null, handleCurrentlyPlayingResponse);
