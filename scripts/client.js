@@ -50,7 +50,7 @@ function onPageLoad() {
 
     clientId = sessionStorage.getItem("client_id");
     clientSec = sessionStorage.getItem("client_secret");
-    if (clientId === "" || clientSec === "" || clientId === "null" || clientSec === "null" || clientId === undefined || clientSec === undefined) {
+    if (clientId.length < 32 || clientSec < 32) {
         document.getElementById("tokenSection").style.display = 'block';
     } else if (window.location.search.length > 0) {
         handleRedirect();
