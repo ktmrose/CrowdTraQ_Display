@@ -59,6 +59,7 @@ function onPageLoad() {
         if (access_token === null) {
             requestAuthorization()
         } else {
+            sendTokens(access_token, refresh_token);
             document.getElementById("songSelection").style.display = 'block';
             callSpotifyApi("GET", PLAYBACKSTATE + "?market=US", null, handleCurrentlyPlayingResponse);
             // document.getElementById("qLength").innerText = window.queueLength;
@@ -329,7 +330,7 @@ connection = null;
 function sendTokens(accessToken, refreshToken) {
     if (accessToken !== "" && refreshToken !== "" && connection !== null) {
 
-        connection.send(JSON.stringify({"UserId" : userId, "Access_Token" : accessToken, "Refresh_Token" : refreshToken}))
+        connection.send(JSON.stringify({"UserId" : userId, "Access_Token" : accessToken, "Refresh_Token" : refreshToken, "Client_ID" : clientId}))
     }
 }
 
