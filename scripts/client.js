@@ -331,7 +331,9 @@ connection = null;
 function sendTokens(accessToken, refreshToken) {
     if (accessToken !== "" && refreshToken !== "" && connection !== null) {
 
-        connection.send(JSON.stringify({"UserId" : userId, "Access_Token" : accessToken, "Refresh_Token" : refreshToken, "Client_ID" : clientId}))
+        const message = JSON.stringify({"UserId" : userId, "Access_Token" : accessToken, "Refresh_Token" : refreshToken, "Client_ID" : clientId})
+        connection.send(message)
+        console.log(message)
     }
 }
 
