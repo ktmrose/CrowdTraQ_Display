@@ -63,7 +63,6 @@ function onPageLoad() {
             sendTokens(access_token, refresh_token);
             document.getElementById("songSelection").style.display = 'block';
             callSpotifyApi("GET", PLAYBACKSTATE + "?market=US", null, handleCurrentlyPlayingResponse);
-            // document.getElementById("qLength").innerText = window.queueLength;
         }
     }
 }
@@ -352,8 +351,16 @@ function connectToServer() {
         if (message.UserId !== undefined) {
             userId = message.UserId
             console.log("Your assigned userID: " + userId);
+            sendTokens(access_token, refresh_token)
         }
-        sendTokens(access_token, refresh_token)
+         if (message.Q_length !== undefined) {
+             let qLength = message.Q_length
+             document.getElementById("qLength").innerText = qLength
+         }
+         if (message.Cost !== undefined) {
+             let qCost = message.Cost
+             document.getElementById("addSongCost").innerText = qCost
+         }
     }
 }
 
