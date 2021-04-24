@@ -354,12 +354,22 @@ function connectToServer() {
             sendTokens(access_token, refresh_token)
         }
          if (message.Q_length !== undefined) {
-             let qLength = message.Q_length
-             document.getElementById("qLength").innerText = qLength
+             document.getElementById("qLength").innerText = message.Q_length
          }
          if (message.Cost !== undefined) {
-             let qCost = message.Cost
-             document.getElementById("addSongCost").innerText = qCost
+             document.getElementById("addSongCost").innerText = message.Cost
+         }
+
+         if (message.Album_Cover !== undefined) {
+             document.getElementById("albumImage").src = message.Album_Cover
+         }
+
+         if (message.Track_Name !== undefined) {
+             document.getElementById("trackTitle").innerHTML = message.Track_Name
+         }
+
+         if (message.Artist_Name !== undefined) {
+            document.getElementById("trackArtist").innerText = message.Artist_Name
          }
     }
 }
