@@ -31,16 +31,16 @@ const scopes = [
 
 const AUTHORIZE = "https://accounts.spotify.com/authorize";
 const TOKEN = "https://accounts.spotify.com/api/token";
-const PLAY = "https://api.spotify.com/v1/me/player/play";
-const QUEUE = "https://api.spotify.com/v1/me/player/queue";
-const SKIP = "https://api.spotify.com/v1/me/player/next";
-const PLAYBACKSTATE = "https://api.spotify.com/v1/me/player";
-const PAUSE = "https://api.spotify.com/v1/me/player/pause";
+// const PLAY = "https://api.spotify.com/v1/me/player/play";
+// const QUEUE = "https://api.spotify.com/v1/me/player/queue";
+// const SKIP = "https://api.spotify.com/v1/me/player/next";
+// const PLAYBACKSTATE = "https://api.spotify.com/v1/me/player";
+// const PAUSE = "https://api.spotify.com/v1/me/player/pause";
 
-let isPlaying;
-let songDuration;
-let songProgression;
-let songTimer = null;
+// let isPlaying;
+// let songDuration;
+// let songProgression;
+// let songTimer = null;
 
 /**
  * When page loads, checks session storage for client ID and client Secret. If none, displays html
