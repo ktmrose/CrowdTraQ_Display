@@ -62,7 +62,7 @@ function onPageLoad() {
             refresh_token = sessionStorage.getItem("refresh_token");
             sendTokens(access_token, refresh_token);
             document.getElementById("songSelection").style.display = 'block';
-            callSpotifyApi("GET", PLAYBACKSTATE + "?market=US", null, handleCurrentlyPlayingResponse);
+            // callSpotifyApi("GET", PLAYBACKSTATE + "?market=US", null, handleCurrentlyPlayingResponse);
         }
     }
 }
@@ -156,21 +156,21 @@ function refreshAccessToken() {
     callAuthorizationApi(body);
 }
 
-/**
- * Generic method to handle Spotify API requests
- * @param method "POST", "PUT", "GET"
- * @param url Spotify end point. Don't forget to include any (required) query params here.
- * @param body Nullable stringified JSON object
- * @param callback after Spotify request is completed
- */
-function callSpotifyApi(method, url, body, callback) {
-    let xhr = new XMLHttpRequest();
-    xhr.open(method, url, true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.setRequestHeader('Authorization', 'Bearer ' + access_token);
-    xhr.send(body);
-    xhr.onload = callback;
-}
+// /**
+//  * Generic method to handle Spotify API requests
+//  * @param method "POST", "PUT", "GET"
+//  * @param url Spotify end point. Don't forget to include any (required) query params here.
+//  * @param body Nullable stringified JSON object
+//  * @param callback after Spotify request is completed
+//  */
+// function callSpotifyApi(method, url, body, callback) {
+//     let xhr = new XMLHttpRequest();
+//     xhr.open(method, url, true);
+//     xhr.setRequestHeader('Content-Type', 'application/json');
+//     xhr.setRequestHeader('Authorization', 'Bearer ' + access_token);
+//     xhr.send(body);
+//     xhr.onload = callback;
+// }
 
 /**
  * Gets access token from Spotify using authorization code.
@@ -194,135 +194,135 @@ function handleRedirect() {
     window.history.pushState("", "", redirectUri);
 }
 
-/**
- * Callback verifying song addition.
- */
-function handleSongAddition() {
-    if (this.status === 204) {
-        console.log("Check your queue to see if your song was added.");
+// /**
+//  * Callback verifying song addition.
+//  */
+// function handleSongAddition() {
+//     if (this.status === 204) {
+//         console.log("Check your queue to see if your song was added.");
 
-    } else if (this.status === 404) {
-        console.log("Device not found");
+//     } else if (this.status === 404) {
+//         console.log("Device not found");
 
-    } else if (this.status === 401) {
-        refreshAccessToken();
+//     } else if (this.status === 401) {
+//         refreshAccessToken();
 
-    } else {
-        console.log(this.responseText);
-    }
-}
+//     } else {
+//         console.log(this.responseText);
+//     }
+// }
 
-/**
- * Driver method to add a song to a queue.
- */
-function addSongToQueue(){
+// /**
+//  * Driver method to add a song to a queue.
+//  */
+// function addSongToQueue(){
 
-    let songId;
-    songId = document.getElementById("track").value;
-    if (songId !== undefined) {
-        pushSongToQ(songId);
-    }
-    document.getElementById("track").value = "";
-}
+//     let songId;
+//     songId = document.getElementById("track").value;
+//     if (songId !== undefined) {
+//         pushSongToQ(songId);
+//     }
+//     document.getElementById("track").value = "";
+// }
 
-/**
- * Adds a song with a valid Spotify track ID to the queue.
- * @param trackID unique Spotify track ID
- */
-function pushSongToQ(trackID) {
+// /**
+//  * Adds a song with a valid Spotify track ID to the queue.
+//  * @param trackID unique Spotify track ID
+//  */
+// function pushSongToQ(trackID) {
 
-    callSpotifyApi("POST", QUEUE + "?uri=spotify%3Atrack%3A" + trackID, null, handleSongAddition);
-}
+//     callSpotifyApi("POST", QUEUE + "?uri=spotify%3Atrack%3A" + trackID, null, handleSongAddition);
+// }
 
-/**
- * Developer message to check if Spotify successfully received a request when otherwise not expecting a response.
- */
-function verifyRequestHandled() {
-    if (this.status === 204) {
-        console.log("ReQuEsT fUlLfIlLeD");
-    } else if (this.status === 401) {
-        refreshAccessToken();
-    } else {
-        console.log(this.responseText);
-    }
-}
+// /**
+//  * Developer message to check if Spotify successfully received a request when otherwise not expecting a response.
+//  */
+// function verifyRequestHandled() {
+//     if (this.status === 204) {
+//         console.log("ReQuEsT fUlLfIlLeD");
+//     } else if (this.status === 401) {
+//         refreshAccessToken();
+//     } else {
+//         console.log(this.responseText);
+//     }
+// }
 
-/**
- * Parses JSON response from Spotify and verifies current player state
- */
-function handleCurrentlyPlayingResponse() {
-    if (this.status === 200) {
-        let data = JSON.parse(this.responseText);
-        console.log(data);
-        if (data.item !== null) {
-            document.getElementById("albumImage").src = data.item.album.images[0].url
-            document.getElementById("trackTitle").innerHTML = data.item.name
-            document.getElementById("trackArtist").innerText = data.item.artists[0].name
+// /**
+//  * Parses JSON response from Spotify and verifies current player state
+//  */
+// function handleCurrentlyPlayingResponse() {
+//     if (this.status === 200) {
+//         let data = JSON.parse(this.responseText);
+//         console.log(data);
+//         if (data.item !== null) {
+//             document.getElementById("albumImage").src = data.item.album.images[0].url
+//             document.getElementById("trackTitle").innerHTML = data.item.name
+//             document.getElementById("trackArtist").innerText = data.item.artists[0].name
 
-            songDuration = data.item.duration_ms
-            songProgression = data.progress_ms
-            checkSongDuration();
-        }
+//             songDuration = data.item.duration_ms
+//             songProgression = data.progress_ms
+//             checkSongDuration();
+//         }
 
-    } else if (this.status === 401) {
-        refreshAccessToken();
+//     } else if (this.status === 401) {
+//         refreshAccessToken();
 
-    } else {
-        console.log(this.responseText);
-    }
-}
+//     } else {
+//         console.log(this.responseText);
+//     }
+// }
 
-/**
- * Plays if playback state is paused, otherwise pauses playback state
- */
-function playPause() {
+// /**
+//  * Plays if playback state is paused, otherwise pauses playback state
+//  */
+// function playPause() {
 
-    callSpotifyApi("GET", PLAYBACKSTATE + "?market=US", null, handleCurrentlyPlayingResponse);
-    if (isPlaying) {
-        callSpotifyApi("PUT", PAUSE, null, verifyRequestHandled());
-        isPlaying = false;
-    } else {
-        callSpotifyApi("PUT", PLAY, null, verifyRequestHandled());
-        isPlaying = true;
-    }
-}
+//     callSpotifyApi("GET", PLAYBACKSTATE + "?market=US", null, handleCurrentlyPlayingResponse);
+//     if (isPlaying) {
+//         callSpotifyApi("PUT", PAUSE, null, verifyRequestHandled());
+//         isPlaying = false;
+//     } else {
+//         callSpotifyApi("PUT", PLAY, null, verifyRequestHandled());
+//         isPlaying = true;
+//     }
+// }
 
-/**
- * Skips a song if playback state is playing
- */
-function skipSong() {
+// /**
+//  * Skips a song if playback state is playing
+//  */
+// function skipSong() {
 
-    clearInterval(songTimer);
-    callSpotifyApi("POST", SKIP, null, verifyRequestHandled)
-    callSpotifyApi("GET", PLAYBACKSTATE + "?market=US", null, handleCurrentlyPlayingResponse)
-}
+//     clearInterval(songTimer);
+//     callSpotifyApi("POST", SKIP, null, verifyRequestHandled)
+//     callSpotifyApi("GET", PLAYBACKSTATE + "?market=US", null, handleCurrentlyPlayingResponse)
+// }
 
-/**
- * Sets the song duration and resets timer
- */
-function checkSongDuration() {
+// /**
+//  * Sets the song duration and resets timer
+//  */
+// function checkSongDuration() {
 
-    let songEnd = new Date().getTime() + (songDuration - songProgression)
-    songTimer = setInterval(function () {
-        let now = new Date().getTime();
-        let remainingTime = songEnd - now;
+//     let songEnd = new Date().getTime() + (songDuration - songProgression)
+//     songTimer = setInterval(function () {
+//         let now = new Date().getTime();
+//         let remainingTime = songEnd - now;
 
-        // Time calculations for days, hours, minutes and seconds
-        var days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
-        var hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        var minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
-        var seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+//         // Time calculations for days, hours, minutes and seconds
+//         var days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
+//         var hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+//         var minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+//         var seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
 
-        // Display the result
-        // console.log(days + "d " + hours + "h " + minutes + "m " + seconds + "s ");
+//         // Display the result
+//         // console.log(days + "d " + hours + "h " + minutes + "m " + seconds + "s ");
 
-        if (remainingTime < 0) {
-            clearInterval(songTimer);
-            console.log("Song ended")
-            callSpotifyApi("GET", PLAYBACKSTATE + "?market=US", null, handleCurrentlyPlayingResponse);
-        }
-    }, 1000);
-}
+//         if (remainingTime < 0) {
+//             clearInterval(songTimer);
+//             console.log("Song ended")
+//             callSpotifyApi("GET", PLAYBACKSTATE + "?market=US", null, handleCurrentlyPlayingResponse);
+//         }
+//     }, 1000);
+// }
 
 
 // ### WebSocket connection to server ###
@@ -330,7 +330,10 @@ connection = null;
 function sendTokens(accessToken, refreshToken) {
     if (accessToken !== "" && refreshToken !== "" && connection !== null) {
 
-        const message = JSON.stringify({"UserId" : userId, "Access_Token" : accessToken, "Refresh_Token" : refreshToken, "Client_ID" : clientId})
+        const message = JSON.stringify({
+            "UserId" : userId, 
+            "Access_Token" : accessToken, 
+            "Refresh_Token" : refreshToken})
         connection.send(message)
         console.log(message)
     }
